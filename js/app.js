@@ -7,6 +7,9 @@ class CalorieTracker {
 
         this._displayCaloriesLimit();
         this._displayCaloriesTotal();
+        this._displayCaloriesConsumed();
+        this._displayCaloriesBurned();
+        this._displayCaloriesRemaining();
     }
 
     // Public Methods / API
@@ -35,9 +38,36 @@ class CalorieTracker {
         calorieLimitEl.innerHTML = this._calorieLimit;
     }
 
+    _displayCaloriesConsumed() {
+        const caloriesConsumedEl = document.querySelector('#calories-consumed');
+
+        //Its gonna loop through all the meals and its gonna set total to 0, and its
+        // gonna loop once more and its gonna add the first meal calories
+        const consumed = this._meals.reduce((total, meal)=> total + meal.calories, 0);
+
+        caloriesConsumedEl.innerHTML = consumed;
+    }
+
+    _displayCaloriesBurned() {
+        const caloriesBurnedEl = document.querySelector('#calories-burned');
+        const burned = this._workouts.reduce(
+            (total, workout)=> total + workout.calories, 0);
+
+        caloriesBurnedEl.innerHTML = burned;
+    }
+
+    _displayCaloriesRemaining(){
+        const caloriesRemainingEl = document.querySelector('#calories-remaining');
+
+        const remaining = this._calorieLimit - this._totalCalories;
+        caloriesRemainingEl.innerHTML = remaining;
+    }
 
     _render(){
         this._displayCaloriesTotal();
+        this._displayCaloriesConsumed();
+        this._displayCaloriesBurned();
+        this._displayCaloriesRemaining();
     }
 }
 
@@ -61,11 +91,11 @@ class Workout {
 const tracker = new CalorieTracker();
 
 const breakfast = new Meal('Breakfast', 400);
-const lunch = new Meal('Lunch', 350);
-tracker.addMeal(breakfast);
-tracker.addMeal(lunch);
 
-const run = new Workout('Morning Run', 300);
+tracker.addMeal(breakfast);
+
+
+const run = new Workout('Morning Run', 320);
 tracker.addWorkout(run);
 
 console.log(tracker._meals)
