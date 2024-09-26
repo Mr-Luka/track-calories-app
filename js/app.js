@@ -116,6 +116,10 @@ class App {
         document
         .querySelector('#meal-form')
         .addEventListener('submit', this._newMeal.bind(this));
+
+        document
+        .querySelector('#workout-form')
+        .addEventListener('submit', this._newWorkout.bind(this));
     }
 
     _newMeal(e){
@@ -133,6 +137,26 @@ class App {
         const meal = new Meal(name.value, +calories.value);
 
         this._tracker.addMeal(meal);
+
+        name.value = '';
+        calories.value = '';
+    }
+
+    _newWorkout(e){
+        e.preventDefault();
+
+        const name = document.querySelector('#workout-name');
+        const calories = document.querySelector('#workout-calories');
+
+        // Validate inputs
+        if(name.value === '' || calories.value === '') {
+            alert('Please fill in all fields');
+            return;
+        }
+
+        const workout = new Meal(name.value, +calories.value);
+
+        this._tracker.addWorkout(workout);
 
         name.value = '';
         calories.value = '';
