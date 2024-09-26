@@ -109,18 +109,30 @@ class Workout {
 }
 
 
-const tracker = new CalorieTracker();
+class App {
+    constructor() {
+        this._tracker = new CalorieTracker();
 
-const breakfast = new Meal('Breakfast', 400);
+        document.querySelector('#meal-form')
+        .addEventListener('click', this._newMeal.bind(this));
+    }
 
-tracker.addMeal(breakfast);
-const lunch = new Meal('Lunch', 350);
-tracker.addMeal(lunch)
+    _newMeal(e){
+        e.preventDefault();
+
+        const name = document.querySelector('#meal-name');
+        const calories = document.querySelector('#meal-calories');
+
+        // Validate inputs
+        if(name.value === '' || calories.value === ''){
+            alert('Please fill in all fields');
+            return;
+        }
+        const meal = new Meal(name.value, calories.value);
+
+        this._tracker.addMeal(meal);
+    }
+}
 
 
-const run = new Workout('Morning Run', 320);
-tracker.addWorkout(run);
-
-console.log(tracker._meals)
-console.log(tracker._workouts)
-console.log(tracker._totalCalories)
+const app = new App();
