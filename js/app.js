@@ -113,8 +113,9 @@ class App {
     constructor() {
         this._tracker = new CalorieTracker();
 
-        document.querySelector('#meal-form')
-        .addEventListener('click', this._newMeal.bind(this));
+        document
+        .querySelector('#meal-form')
+        .addEventListener('submit', this._newMeal.bind(this));
     }
 
     _newMeal(e){
@@ -124,13 +125,17 @@ class App {
         const calories = document.querySelector('#meal-calories');
 
         // Validate inputs
-        if(name.value === '' || calories.value === ''){
+        if(name.value === '' || calories.value === '') {
             alert('Please fill in all fields');
             return;
         }
-        const meal = new Meal(name.value, calories.value);
+
+        const meal = new Meal(name.value, +calories.value);
 
         this._tracker.addMeal(meal);
+
+        name.value = '';
+        calories.value = '';
     }
 }
 
