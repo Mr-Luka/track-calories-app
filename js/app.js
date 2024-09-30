@@ -3,7 +3,7 @@ class CalorieTracker {
         this._calorieLimit = Storage.getCalorieLimit();
         this._totalCalories = Storage.getTotalCalories(0);
         this._meals = Storage.getMeals();
-        this._workouts = [];
+        this._workouts = Storage.getWorkouts();
 
         this._displayCaloriesLimit();
         this._displayCaloriesTotal();
@@ -18,7 +18,7 @@ class CalorieTracker {
     addMeal(meal) {
         this._meals.push(meal);
         this._totalCalories += meal.calories;
-        Storage.updateTotalCalories(this._totalCalries);
+        Storage.updateTotalCalories(this._totalCalories);
         Storage.saveMeal(meal);
         this._displayNewMeal(meal);
         this._render();
@@ -27,7 +27,7 @@ class CalorieTracker {
     addWorkout(workout){
         this._workouts.push(workout);
         this._totalCalories -= workout.calories;
-        Storage.updateTotalCalories(this._totalCalries);
+        Storage.updateTotalCalories(this._totalCalories);
         Storage.saveWorkout(workout);
         this._displayNewWorkout(workout);
         this._render();
@@ -39,7 +39,7 @@ class CalorieTracker {
         if(index !== -1){
             const meal = this._meals[index];
             this._totalCalories -= meal.calories;
-            Storage.updateTotalCalories(this._totalCalries);
+            Storage.updateTotalCalories(this._totalCalories);
             this._meals.splice(index, 1);
             this._render();
         }
@@ -51,7 +51,7 @@ class CalorieTracker {
         if(index !== -1){
             const workout = this._workouts[index];
             this._totalCalories += workout.calories;
-            Storage.updateTotalCalories(this._totalCalries);
+            Storage.updateTotalCalories(this._totalCalories);
             this._workouts.splice(index, 1);
             this._render();
         }
@@ -73,6 +73,7 @@ class CalorieTracker {
 
     loadItems(){
         this._meals.forEach(meal=> this._displayNewMeal(meal));
+        this._workouts.forEach(workout=> this._displayNewWorkout(workout));
     }
 
 
@@ -250,7 +251,7 @@ class Storage {
         localStorage.setItem('meals', JSON.stringify(meals));
     }
 
-        static getWorkouts(){
+    static getWorkouts(){
         let workouts;
         if(localStorage.getItem('workouts') === null) {
             workouts = [];
@@ -392,3 +393,4 @@ class App {
 }
 
 const app = new App();
+
