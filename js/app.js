@@ -58,6 +58,13 @@ class CalorieTracker {
         this._render();
     }
 
+    setLimit(calorieLimit){
+        this._calorieLimit = calorieLimit;
+        this._displayCaloriesLimit();
+        this._render();
+    }
+
+
     // Private Methods
 
     _displayCaloriesTotal () {
@@ -214,6 +221,9 @@ class App {
 
         document.querySelector('#reset')
         .addEventListener('click', this._reset.bind(this));
+
+        document.querySelector('#limit-form')
+        .addEventListener('submit', this._setLimit.bind(this));
     }
 
     _newItem(type, e){
@@ -278,6 +288,25 @@ class App {
         document.querySelector('#filter-meals').value = '';
         document.querySelector('#filter-workouts').value = '';
     }
+
+    _setLimit(e){
+        e.preventDefault();
+
+        const limit = document.querySelector('#limit');
+
+        if(limit.value === ''){
+            alert('Please add a limit');
+            return;
+        } 
+
+        this._tracker.setLimit(+limit.value);//passes as a string, so I put + to pass it as a number
+        limit.value = '';
+
+        const modalEl = document.querySelector('#limit-modal');
+        const modal = bootstrap.Modal.getInstance(modalEl);
+        modal.hide();
+    }
+    
 
 }
 
